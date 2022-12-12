@@ -1,3 +1,4 @@
+var prestamos = [];
 const menuAdmin = () => {
   const AdminLogin = {
     //declaro las credenciales de logeo de administradores
@@ -20,7 +21,7 @@ const mostrarMenu = () => {
       crearPrestamo();
       break;
     case 2:
-      historial();
+      historialPrestamos();
       break;
     case 3:
       return;
@@ -54,14 +55,39 @@ const crearPrestamo = () => {
       }
     } while (isNaN(Cuotas));
     let mensual = Cantidad / Cuotas;
-    const prestamo1 = new Prestamo(nombre, Cantidad, Cuotas, mensual);
+    let prestamo1 = new Prestamo(nombre, Cantidad, Cuotas, mensual);
+    prestamos.push(prestamo1);
+    for (i = 0; i < prestamos.length; i++) {
+      console.log(prestamos[i]);
+    }
     alert(
       `El prestamo se cargo correctamente a nombre de ${prestamo1.nombre} con una cantidad total de $${prestamo1.cantidad} y un debito mensual de $${prestamo1.mensual} durante ${prestamo1.cuotas} meses`
     );
     opcionsalir = prompt(
-      "Si desea salir ingrese 1 en caso contrario ingrese cualquier numero."
+      "Si desea salir volver al menu ingrese 1 en caso de querer crear otro prestamo ingrese cualquier otra tecla."
     );
   } while (opcionsalir != "1");
-  mostrarMenu()
+  mostrarMenu();
 };
+
+const historialPrestamos = () => {
+  let opcion
+ do {
+    opcion = prompt(
+    `Actualmente hay una cantidad de ${prestamos.length} prestamos cargados, ingrese el nombre del cliente para acceder a su prestamo, en caso de querer salir ingrese "Salir"`
+  );
+  for (i = 0; i < prestamos.length; i++) {
+    if (prestamos[i].nombre == opcion) {
+      alert(
+        `${prestamos[i].nombre} tiene un prestamo con un valor total de $${prestamos[i].cantidad} con un debito mensual de $${prestamos[i].mensual} durante ${prestamos[i].cuotas}`
+      );
+    }
+    else if(opcion !="Salir") {
+      alert("El nombre ingresado no tiene ningun prestamo cargado.")
+    }
+  }
+ }while(opcion != "Salir")
+ mostrarMenu();
+};
+
 menuAdmin();
